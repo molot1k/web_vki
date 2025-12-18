@@ -10,7 +10,19 @@ const studentRepository = AppDataSource.getRepository(Student);
  * @returns Promise<StudentInterface[]>
  */
 export const getStudentsDb = async (): Promise<StudentInterface[]> => {
-  return await studentRepository.find();
+  return await studentRepository.find({ relations: ['group'] });
+};
+
+/**
+ * Получение студента по ID
+ * @param studentId ИД студента
+ * @returns Promise<StudentInterface | null>
+ */
+export const getStudentDb = async (studentId: number): Promise<StudentInterface | null> => {
+  return await studentRepository.findOne({ 
+    where: { id: studentId },
+    relations: ['group']
+  });
 };
 
 /**

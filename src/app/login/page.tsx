@@ -4,7 +4,7 @@ import { META_DESCRIPTION, META_TITLE } from '@/constants/meta';
 import { type Metadata } from 'next/types';
 
 export const metadata: Metadata = {
-  title: `Вход - ${META_TITLE}`,
+  title: `Группы - ${META_TITLE}`,
   description: META_DESCRIPTION,
 };
 

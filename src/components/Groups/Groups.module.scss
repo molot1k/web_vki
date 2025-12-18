@@ -1,3 +1,58 @@
 .Groups {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.group {
+  padding: 20px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.groupName {
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.contacts {
+  margin-bottom: 15px;
+  color: #666;
+  font-size: 14px;
+}
+
+.students {
+  margin-top: 15px;
+}
+
+.students h3 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.studentsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.student {
+  margin-bottom: 5px;
+}
+
+.studentLink {
+  color: #0070f3;
+  text-decoration: none;
   
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.noStudents {
+  color: #999;
+  font-style: italic;
+  margin-top: 10px;
 }

@@ -11,24 +11,9 @@ const AppDataSource = new DataSource({
   logging: false,
 });
 
-// to initialize the initial connection with the database, register all entities
-// and "synchronize" database schema, call "initialize()" method of a newly created database
-// once in your application bootstrap
-// const init = async (): Promise<void> => {
-//   try {
-//     await AppDataSource.initialize();
-//   }
-//   catch (error) {
-//     console.log(error);
-//   }
-// };
-
-// init();
-
 AppDataSource.initialize()
   .then(() => {
     console.log('Data Source has been initialized!');
-    // You can now interact with your entities
   })
   .catch((err) => {
     console.error('Error during Data Source initialization:', err);

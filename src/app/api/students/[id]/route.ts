@@ -1,13 +1,25 @@
-import { deleteStudentDb } from '@/db/studentDb';
-import { type NextApiRequest } from 'next/types';
+import { deleteStudentDb, getStudentDb } from '@/db/studentDb';
+import { NextRequest } from 'next/server';
 
 interface Params {
-  params: { id: number };
+  params: Promise<{ id: string }>;
 }
 
-export async function DELETE(req: NextApiRequest, { params }: Params): Promise<Response> {
-  const p = await params;
-  const studentId = await p.id;
+export async function GET(req: NextRequest, { params }: Params): Promise<Response> {
+  const { id } = await params;
+  const studentId = parseInt(id);
+  const student = await getStudentDb(studentId);
+
+  return new Response(JSON.stringify(student), {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+}
+
+export async function DELETE(req: NextRequest, { params }: Params): Promise<Response> {
+  const { id } = await params;
+  const studentId = parseInt(id);
   const deletedStudentId = await deleteStudentDb(studentId);
 
   return new Response(JSON.stringify({ deletedStudentId }), {
@@ -15,4 +27,4 @@ export async function DELETE(req: NextApiRequest, { params }: Params): Promise<R
       'Content-Type': 'application/json',
     },
   });
-};
+}

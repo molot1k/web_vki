@@ -1,0 +1,13 @@
+.BackNavigation {
+  margin-bottom: 20px;
+}
+
+.link {
+  color: #0070f3;
+  text-decoration: none;
+  font-size: 14px;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+}
