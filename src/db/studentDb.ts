@@ -3,13 +3,33 @@ import type StudentInterface from '@/types/StudentInterface';
 import getRandomFio from '@/utils/getRandomFio';
 import AppDataSource from './AppDataSource';
 
-const studentRepository = AppDataSource.getRepository(Student);
+/**
+ * Ожидание инициализации базы данных
+ */
+const waitForDatabase = async () => {
+  if (!AppDataSource.isInitialized) {
+    // Ждем до 5 секунд пока база инициализируется
+    for (let i = 0; i < 50; i++) {
+      if (AppDataSource.isInitialized) break;
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+  }
+  if (!AppDataSource.isInitialized) {
+    throw new Error('Database not initialized');
+  }
+};
+
+const getStudentRepository = async () => {
+  await waitForDatabase();
+  return AppDataSource.getRepository(Student);
+};
 
 /**
  * Получение студентов
  * @returns Promise<StudentInterface[]>
  */
 export const getStudentsDb = async (): Promise<StudentInterface[]> => {
+  const studentRepository = await getStudentRepository();
   return await studentRepository.find({ relations: ['group'] });
 };
 
@@ -19,6 +39,7 @@ export const getStudentsDb = async (): Promise<StudentInterface[]> => {
  * @returns Promise<StudentInterface | null>
  */
 export const getStudentDb = async (studentId: number): Promise<StudentInterface | null> => {
+  const studentRepository = await getStudentRepository();
   return await studentRepository.findOne({ 
     where: { id: studentId },
     relations: ['group']
@@ -31,6 +52,7 @@ export const getStudentDb = async (studentId: number): Promise<StudentInterface 
  * @returns Promise<number>
  */
 export const deleteStudentDb = async (studentId: number): Promise<number> => {
+  const studentRepository = await getStudentRepository();
   await studentRepository.delete(studentId);
   return studentId;
 };
@@ -41,6 +63,7 @@ export const deleteStudentDb = async (studentId: number): Promise<number> => {
  * @returns Promise<StudentInterface>
  */
 export const addStudentDb = async (studentFields: Omit<StudentInterface, 'id'>): Promise<StudentInterface> => {
+  const studentRepository = await getStudentRepository();
   const student = new Student();
   const newStudent = await studentRepository.save({
     ...student,

@@ -9,8 +9,12 @@ interface StudentInterface {
   contacts?: string;
   groupId?: number;
   group?: GroupInterface;
+  createdAt?: Date;
+  updatedAt?: Date;
+  fullName?: string;
+  initials?: string;
   isDeleted?: boolean;
   isNew?: boolean;
-};
+}
 
 export default StudentInterface;
